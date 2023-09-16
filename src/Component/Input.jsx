@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 
 const Input = (props) => {
-    // const {
-    //     data ,
-    //     func
-    // } = props
+    const {
+        data ,
+        func
+    } = props
     const [input , setInput] = useState('');
     const submit = () => {
       console.log(input);
-    //   data(input)
-    //   func(input)
+      data(input)
+      func(input)
     }
   return (
     <div>
