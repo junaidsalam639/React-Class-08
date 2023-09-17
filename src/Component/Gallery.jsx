@@ -1,34 +1,47 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import { db, auth, collection, query, where, getDocs, onAuthStateChanged } from './Config/Firebase';
+import { useNavigate } from 'react-router-dom';
 
 const Gallery = () => {
-  return (
-    <div>
-      
-<div className="grid gap-4">
-    <div>
-        <img className="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg" alt="" />
-    </div>
-    <div className="grid grid-cols-5 gap-4">
-        <div>
-            <img className="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg" alt="" />
-        </div>
-        <div>
-            <img className="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg" alt="" />
-        </div>
-        <div>
-            <img className="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg" alt="" />
-        </div>
-        <div>
-            <img className="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg" alt="" />
-        </div>
-        <div>
-            <img className="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-5.jpg" alt="" />
-        </div>
-    </div>
-</div>
+    const navigate = useNavigate();
+    const [data, setData] = useState([]);
 
-    </div>
-  )
-}
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const user = auth.currentUser;
 
-export default Gallery
+                if (user) {
+                    const q = query(collection(db, 'Practice_App'), where('email', '==', user.email));
+                    const querySnapshot = await getDocs(q);
+                    const newData = querySnapshot.docs.map(doc => doc.data());
+                    setData(newData);
+                } else {
+                    navigate('/');
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        const unsubscribe = onAuthStateChanged(auth, fetchData);
+
+        return () => unsubscribe();
+    }, []);
+
+    return (
+        <div>
+            {data.map((item, index) => (
+                <div key={index} className="card">
+                    <div className="card-body">
+                        <h5 className="card-title">{item.name}</h5>
+                        <p className="card-text">{item.email}</p>
+                        
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
+};
+
+export default Gallery;
