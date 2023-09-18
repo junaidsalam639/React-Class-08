@@ -25,7 +25,7 @@ const Gallery = () => {
                     const querySnapshot = await getDocs(q);
                     const newData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                     setData(newData);
-                    
+
                     const uid1 = user.uid;
                     const q1 = query(collection(db, 'Practice_App'), where('email', '!=', user.email));
                     const querySnapshot1 = await getDocs(q1);
@@ -51,19 +51,25 @@ const Gallery = () => {
     }
 
     const UserProfile = (e) => {
-        localStorage.setItem('id' , e);
+        localStorage.setItem('id', e);
         navigate('/userprofile')
     }
 
-    const friend = (index , e) => {
-        console.log( index , e);
-        if (friend1 == 'Add Friend') {
-            setFriendVal(friendVal + 1);
-            setFriend1('Remove Friend');
-            console.log(id);
-        } else if (friend1 == 'Remove Friend') {
-            setFollowVal(friendVal - 1);
-            setFriend1('Add Friend');
+    const friend = async(index, e) => {
+        console.log(index, e);
+        const docRef = doc(db, "Practice_App", e);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            console.log("Document data:", docSnap.data());
+            if (friend1 == 'Add Friend') {
+                setFriendVal(friendVal + 1);
+                setFriend1('Remove Friend');
+            } else if (friend1 == 'Remove Friend') {
+                setFollowVal(friendVal - 1);
+                setFriend1('Add Friend');
+            }
+        } else {
+            console.log("No such document!");
         }
     }
 
@@ -78,12 +84,21 @@ const Gallery = () => {
         borderRadius: '50%',
         objectFit: 'center'
     }
+    const circle1 = {
+        width: '38px',
+        height: '38px',
+        objectFit: 'cover',
+        borderRadius: '50%',
+        objectFit: 'center',
+        backgroundPosition: 'center',
+        backgroundSize: 'cover'
+    }
 
     if (data) {
         return (
             <div className='my-5'>
                 {data.map((item, index) => (
-                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around', alignItems: 'center', flexWrap: 'wrap', width: '100%' }}  key={item.id}>
+                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around', alignItems: 'center', flexWrap: 'wrap', width: '100%' }} key={item.id}>
                         <div className="image">
                             <img src={item.image} alt="" style={circle} />
                             <h4 className='text-center py-2'>{item.name}</h4>
@@ -106,7 +121,7 @@ const Gallery = () => {
                         <Divider />
                     </div>
                 ))}
-              {/* //Not Equal Users Ke lYe He  */}
+                {/* //Not Equal Users Ke lYe He  */}
 
                 <div style={{ display: 'inline-flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', flexWrap: 'wrap', width: '100%' }}>
                     {dataNotEqual.map((item, index) => (
@@ -116,7 +131,7 @@ const Gallery = () => {
                                 width: 300,
                                 marginTop: 25,
                                 marginBottom: 25,
-                                height: 320,
+                                height: 330,
                             }}
                             cover={
                                 <img style={style}
@@ -125,11 +140,11 @@ const Gallery = () => {
                                 />
                             }
                             actions={[
-                                <button onClick={() => friend(index , item.id)}>{friend1} <UserAddOutlined /> </button>,
+                                <button onClick={() => friend(index, item.id)}>{friend1} <UserAddOutlined /> </button>,
                             ]}
                         >
-                            <Meta style={{cursor : 'pointer' , textDecoration : 'underline'}}
-                                avatar={<Avatar src={item.image} style={{ objectFit: 'cover' }} />}
+                            <Meta style={{ cursor: 'pointer', textDecoration: 'underline', letterSpacing: '2px' }}
+                                avatar={<Avatar src={item.image} style={circle1} />}
                                 title={item.name} onClick={() => UserProfile(item.id)}
                             />
                         </Card>
