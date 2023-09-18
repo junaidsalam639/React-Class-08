@@ -3,6 +3,7 @@ import { db, auth, collection, query, where, getDocs, onAuthStateChanged, getDoc
 import { useNavigate } from 'react-router-dom';
 import { EditOutlined, EllipsisOutlined, SettingOutlined, UserAddOutlined } from '@ant-design/icons';
 import { Avatar, Card, Divider } from 'antd';
+import UserProfile from './UserProfile';
 const { Meta } = Card;
 
 const Gallery = () => {
@@ -13,7 +14,7 @@ const Gallery = () => {
     const [followVal, setFollowVal] = useState(0);
     const [friend1, setFriend1] = useState('Add Friend');
     const [friendVal, setFriendVal] = useState(0);
-    const [id , setId] = useState('');
+    const [id, setId] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -22,25 +23,21 @@ const Gallery = () => {
                     const uid = user.uid;
                     const q = query(collection(db, 'Practice_App'), where('email', '==', user.email));
                     const querySnapshot = await getDocs(q);
-                    const newData = querySnapshot.docs.map(doc => doc.data());
+                    const newData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                     setData(newData);
-                    console.log(newData);
-
+                    
                     const uid1 = user.uid;
                     const q1 = query(collection(db, 'Practice_App'), where('email', '!=', user.email));
                     const querySnapshot1 = await getDocs(q1);
-                    const newData1 = querySnapshot1.docs.map(doc => doc.data());
+                    const newData1 = querySnapshot1.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                     setdataNotEqual(newData1);
                 } else {
                     navigate('/');
                 }
             });
         };
-
         const unsubscribe = onAuthStateChanged(auth, fetchData);
         return () => unsubscribe();
-        
-        
     }, []);
 
     const follow = () => {
@@ -53,7 +50,13 @@ const Gallery = () => {
         }
     }
 
-    const friend = (index) => {
+    const UserProfile = (e) => {
+        localStorage.setItem('id' , e);
+        navigate('/userprofile')
+    }
+
+    const friend = (index , e) => {
+        console.log( index , e);
         if (friend1 == 'Add Friend') {
             setFriendVal(friendVal + 1);
             setFriend1('Remove Friend');
@@ -63,7 +66,7 @@ const Gallery = () => {
             setFriend1('Add Friend');
         }
     }
-    
+
     const style = {
         width: 300,
         height: 200,
@@ -78,9 +81,9 @@ const Gallery = () => {
 
     if (data) {
         return (
-            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around', alignItems: 'center', flexWrap: 'wrap', width: '100%' }} className='my-5'>
+            <div className='my-5'>
                 {data.map((item, index) => (
-                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around', alignItems: 'center', flexWrap: 'wrap', width: '100%' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around', alignItems: 'center', flexWrap: 'wrap', width: '100%' }}  key={item.id}>
                         <div className="image">
                             <img src={item.image} alt="" style={circle} />
                             <h4 className='text-center py-2'>{item.name}</h4>
@@ -103,36 +106,36 @@ const Gallery = () => {
                         <Divider />
                     </div>
                 ))}
-                {  //Not Equal Users Ke lYe He
+              {/* //Not Equal Users Ke lYe He  */}
 
-                    dataNotEqual.map((item, index) => (
-                        <div>
-                            <Card
-                                key={item.id}
-                                style={{
-                                    width: 300,
-                                    marginTop: 25,
-                                    marginBottom: 25,
-                                    height: 320,
-                                }}
-                                cover={
-                                    <img style={style}
-                                        alt="example"
-                                        src={item.image}
-                                    />
-                                }
-                                actions={[
-                                    <button onClick={() => friend(index)}>{friend1} <UserAddOutlined /> </button>,
-                                ]}
-                            >
-                                <Meta
-                                    avatar={<Avatar src={item.image} style={{ objectFit: 'cover' }} />}
-                                    title={item.name}
+                <div style={{ display: 'inline-flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', flexWrap: 'wrap', width: '100%' }}>
+                    {dataNotEqual.map((item, index) => (
+                        <Card
+                            key={item.id}
+                            style={{
+                                width: 300,
+                                marginTop: 25,
+                                marginBottom: 25,
+                                height: 320,
+                            }}
+                            cover={
+                                <img style={style}
+                                    alt="example"
+                                    src={item.image}
                                 />
-                            </Card>
-                        </div>
+                            }
+                            actions={[
+                                <button onClick={() => friend(index , item.id)}>{friend1} <UserAddOutlined /> </button>,
+                            ]}
+                        >
+                            <Meta style={{cursor : 'pointer' , textDecoration : 'underline'}}
+                                avatar={<Avatar src={item.image} style={{ objectFit: 'cover' }} />}
+                                title={item.name} onClick={() => UserProfile(item.id)}
+                            />
+                        </Card>
                     ))
-                }
+                    }
+                </div>
             </div>
         );
     }

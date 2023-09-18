@@ -14,7 +14,8 @@ import {
 } from "react-router-dom";
 import Singup from './Component/Singup_Login/Singup';
 import Login from './Component/Singup_Login/Login';
-import Gallery from './Component/Gallery'
+import Gallery from './Component/Gallery';
+import UserProfile from './Component/UserProfile';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -31,7 +32,11 @@ const router = createBrowserRouter([
   {
     path: '/gallery',
     element: <Gallery />
-  }
+  },
+  {
+    path: '/userprofile',
+    element: <UserProfile />
+  },
 
 ])
 
