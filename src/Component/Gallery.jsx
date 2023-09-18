@@ -12,7 +12,7 @@ const Gallery = () => {
     const [dataNotEqual, setdataNotEqual] = useState([]);
     const [follow1, setFollow1] = useState('Follow');
     const [followVal, setFollowVal] = useState(0);
-    const [friend1, setFriend1] = useState('Add Friend');
+    const [friend1, setFriend1] = useState(['Add Friend']);
     const [friendVal, setFriendVal] = useState(0);
     const [id, setId] = useState('');
 
@@ -55,21 +55,12 @@ const Gallery = () => {
         navigate('/userprofile')
     }
 
-    const friend = async(index, e) => {
+    const friend = (index, e) => {
         console.log(index, e);
-        const docRef = doc(db, "Practice_App", e);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-            console.log("Document data:", docSnap.data());
-            if (friend1 == 'Add Friend') {
-                setFriendVal(friendVal + 1);
-                setFriend1('Remove Friend');
-            } else if (friend1 == 'Remove Friend') {
-                setFollowVal(friendVal - 1);
-                setFriend1('Add Friend');
-            }
-        } else {
-            console.log("No such document!");
+        const copy = dataNotEqual[index];
+        if (friend1 == 'Add Friend') {
+            setFriendVal(friendVal + 1);
+            setFriend1('Remove');
         }
     }
 
@@ -114,7 +105,7 @@ const Gallery = () => {
                             </div>
                             <div className='text-center'>
                                 <h6>Friend</h6>
-                                <h6>0</h6>
+                                <h6>{friendVal}</h6>
                             </div>
                         </div>
                         <button className='btn btn-md my-3 btn-primary w-40' onClick={follow}>{follow1}</button>
