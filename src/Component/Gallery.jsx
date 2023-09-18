@@ -13,6 +13,7 @@ const Gallery = () => {
     const [followVal, setFollowVal] = useState(0);
     const [friend1, setFriend1] = useState('Add Friend');
     const [friendVal, setFriendVal] = useState(0);
+    const [id , setId] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -30,15 +31,16 @@ const Gallery = () => {
                     const querySnapshot1 = await getDocs(q1);
                     const newData1 = querySnapshot1.docs.map(doc => doc.data());
                     setdataNotEqual(newData1);
-                    console.log(dataNotEqual);
                 } else {
                     navigate('/');
                 }
             });
         };
+
         const unsubscribe = onAuthStateChanged(auth, fetchData);
         return () => unsubscribe();
-
+        
+        
     }, []);
 
     const follow = () => {
@@ -51,18 +53,17 @@ const Gallery = () => {
         }
     }
 
-    const friend = (e) => {
-        console.log(e);
-        e.map((item) => console.log(item))
-        if (friend1 == 'Add Friend' && e == e) {
+    const friend = (index) => {
+        if (friend1 == 'Add Friend') {
             setFriendVal(friendVal + 1);
-            setFriend1('Remove Friend')
+            setFriend1('Remove Friend');
+            console.log(id);
         } else if (friend1 == 'Remove Friend') {
             setFollowVal(friendVal - 1);
             setFriend1('Add Friend');
         }
     }
-
+    
     const style = {
         width: 300,
         height: 200,
