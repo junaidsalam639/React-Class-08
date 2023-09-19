@@ -2,3 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+.input-group .form-control:focus{
+    box-shadow: none;
+    border:  1px ridge #ced4da;
+}
+
