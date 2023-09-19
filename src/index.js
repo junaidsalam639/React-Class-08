@@ -1,6 +1,7 @@
 import 'flowbite';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+// import { Provider } from 'react-redux';
 import App from './App';
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -16,6 +17,7 @@ import Singup from './Component/Singup_Login/Singup';
 import Login from './Component/Singup_Login/Login';
 import Gallery from './Component/Gallery';
 import UserProfile from './Component/UserProfile';
+import Practice from './Component/Practice';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -37,12 +39,18 @@ const router = createBrowserRouter([
     path: '/userprofile',
     element: <UserProfile />
   },
+  {
+    path: '/Practice',
+    element: <Practice />
+  },
 
 ])
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  // <Provider>
   <RouterProvider router={router}/>
+  // </Provider>
 );
 
 
