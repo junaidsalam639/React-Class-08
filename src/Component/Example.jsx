@@ -17,10 +17,10 @@ const Example = () => {
                 })
             })
     }
+    dataFecth()
 
     return (
         <div className='container text-center'>
-            <button onClick={dataFecth} className='btn btn-dark mx-3 my-2 text-light'>API_DATA_FECTH</button>
             <div>
                 {b.map((item) => (
                     <div className="news-card">

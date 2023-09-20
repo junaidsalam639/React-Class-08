@@ -38,6 +38,7 @@ const Practice = () => {
       })
     })
   } 
+  dataFecth();
 
 
   return (
@@ -47,7 +48,6 @@ const Practice = () => {
        <button onClick={subBtn} className='btn btn-dark mx-3 my-2 text-light'>Decrement_2</button>
        <button onClick={addBtn25} className='btn btn-dark mx-3 my-2 text-light'>Increament_25</button>
        <button onClick={subBtn25} className='btn btn-dark mx-3 my-2 text-light'>Decrement_25</button>
-       <button onClick={dataFecth} className='btn btn-dark mx-3 my-2 text-light'>API_DATA_FECTH</button>
        <div>
        {b.map((item) => (
          <div className="news-card">
