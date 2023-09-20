@@ -2,6 +2,7 @@ import { createReducer } from "@reduxjs/toolkit";
 
 const initalize = {
     a : 0,
+    b : [],
 }
 
 export const Reducer = createReducer(initalize,{
@@ -17,6 +18,9 @@ export const Reducer = createReducer(initalize,{
         decreamentByValue : (state , action) => {
             state.a -= action.payload
         },
+        dataFecth : (state , action) => {
+           state.b = action.payload
+        }
         
 })
 

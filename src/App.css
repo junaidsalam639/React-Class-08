@@ -7,3 +7,37 @@
     border:  1px ridge #ced4da;
 }
 
+.news-card{
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 18rem;
+    height: 27rem;
+    margin: 10px;
+    border: 2px solid #dff9fb;
+    background-color: #FFFFFF;
+    padding: 10px;
+    border-radius: 6px;
+}
+.news-card img{
+   width: 270px;
+   height: 35vh;
+   background-position: center;
+}
+.news-card h2{
+    font-size: 26px;
+    font-weight: 600;
+    font-family: monospace;
+}
+.news-card p{
+    font-size: 14px;
+    font-family: monospace;
+    font-weight: 600;
+}
+  
+h1{
+    font-weight: bold;
+    cursor: pointer;
+    transition: all;
+}

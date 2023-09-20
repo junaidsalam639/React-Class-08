@@ -19,6 +19,7 @@ import UserProfile from './Component/UserProfile';
 import Practice from './Component/Practice';
 import { Provider } from 'react-redux';
 import store from './store';
+import Example from './Component/Example';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
   {
     path: '/Practice',
     element: <Practice />
+  },
+  {
+    path: '/example',
+    element: <Example />
   },
 
 ])
