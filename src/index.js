@@ -1,7 +1,6 @@
 import 'flowbite';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-// import { Provider } from 'react-redux';
 import App from './App';
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -18,6 +17,8 @@ import Login from './Component/Singup_Login/Login';
 import Gallery from './Component/Gallery';
 import UserProfile from './Component/UserProfile';
 import Practice from './Component/Practice';
+import { Provider } from 'react-redux';
+import store from './store';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -48,9 +49,9 @@ const router = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  // <Provider>
+  <Provider store={store}>
   <RouterProvider router={router}/>
-  // </Provider>
+  </Provider>
 );
 
 
