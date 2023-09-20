@@ -16,6 +16,7 @@ export const Reducer = createReducer(initalize,{
         },
         decreamentByValue : (state , action) => {
             state.a -= action.payload
-        }
+        },
+        
 })
 

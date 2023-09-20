@@ -32,7 +32,7 @@ const Practice = () => {
 
   return (
     <div className='container text-center w-100'>
-       <h1 className='fw-bold'>Hello {a}</h1>
+       <h1 className='fw-bold my-3'>React_Redux_Toolkit :  {a}</h1>
        <button onClick={addBtn} className='btn btn-dark mx-3 text-light'>Increment_1</button>
        <button onClick={subBtn} className='btn btn-dark mx-3 text-light'>Decrement_2</button>
        <button onClick={addBtn25} className='btn btn-dark mx-3 text-light'>Increament_25</button>
